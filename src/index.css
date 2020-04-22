@@ -7,3 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.board{
+  text-align: center;
+  margin-left: 50px;
+}
