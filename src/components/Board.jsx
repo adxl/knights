@@ -15,14 +15,16 @@ export default class Board extends Component {
 	sketch = (p) => {
 
 		const canvasSize = 600;
+		let board;
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			initBoard();
+			board = resetBoard();
+			console.table(board);
 		};
 
 		p.draw = () => {
-			console.log('-');
 
 			p.noLoop();
 		};
@@ -47,7 +49,6 @@ export default class Board extends Component {
 					p.rect(size * i + 5,size * j + 5,size - 5,size - 5);
 				}
 			}
-
 		}
 		
 		function resetBoard() {
@@ -57,10 +58,7 @@ export default class Board extends Component {
 			board[1] = [0,0,0];		
 			board[2] = [1,0,1];	
 			
-		}
-
-		function renderBoard() {
-			
+			return board;
 		}
 	}
 
