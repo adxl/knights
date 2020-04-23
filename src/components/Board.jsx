@@ -33,6 +33,8 @@ export default class Board extends Component {
 			{ x: 5 * spotCenter,y : 5 * spotCenter },
 		];
 		
+		let knights = [];
+
 		let board;
 		
 		p.setup = () => {
@@ -70,19 +72,33 @@ export default class Board extends Component {
 			board[0] = [1,0,1];		
 			board[1] = [0,0,0];		
 			board[2] = [1,0,1];	
+
+			knights.push(new Knight('black',spots[0]));
+			knights.push(new Knight('black',spots[2]));
+			knights.push(new Knight('white',spots[6]));
+			knights.push(new Knight('white',spots[8]));
 			
+			console.log(knights);
+
 			return board;
 		}
 
 		p.mouseClicked = () => {
 			if (p.mouseX < canvasSize && p.mouseY < canvasSize) 
-				getSelectedSpot(p.mouseX,p.mouseY);
+				console.log(containsKnight(p.mouseX,p.mouseY));
+				
 		};
+
+		function containsKnight(x,y) {
+			const spot = getSelectedSpot(x,y);
+			const pos = spotToPos(spot);
+
+			return board[pos.i][pos.j] === 1 ? true : false;
+		}
 
 		function getSelectedSpot(x,y) {
 			const s = canvasSize / 3;
 			let row,col;
-			let spot;
 
 			if (x < s) col = 0;
 			else if (x > 2 * s) col = 2;
@@ -92,15 +108,33 @@ export default class Board extends Component {
 			else if (y > 2 * s) row = 2;
 			else row = 1;
 
-			spot = spots[refBoard[row][col] - 1];
-
-			p.fill(200);
-			console.log(spot.x,spot.y);
-			p.ellipse(spot.x,spot.y,50);
-
+			return refBoard[row][col];
 		}
-		
+
+		function spotToPos(spot) {
+			let pos = {
+				i: null,
+				j: null
+			};
+			if (spot < 4) pos.i = 0;
+			else if (spot > 6) pos.i = 2;
+			else pos.i = 1;
+
+			pos.j = refBoard[pos.i].indexOf(spot);
+
+			return pos;
+		}
+
+		class Knight {
+			constructor(color,spot) {
+				this.color = color;
+				this.spot = spots.indexOf(spot) + 1;
+				p.fill(200);
+				p.ellipse(spot.x,spot.y,50);
+			}
+		}	
 	}
+	//pEnd
 
 	render() {
 		return (
