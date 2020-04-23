@@ -55,7 +55,7 @@ export default class Board extends Component {
 			for (let i = 0; i < 3; i++) {
 				for (let j = 0; j < 3; j++) {
 					if (refBoard[i][j] % 2 !== 0) 
-						p.fill(50);
+						p.fill(60,100,100);
 					else 
 						p.fill(245);
 						
@@ -129,8 +129,12 @@ export default class Board extends Component {
 			constructor(color,spot) {
 				this.color = color;
 				this.spot = spots.indexOf(spot) + 1;
-				p.fill(200);
-				p.ellipse(spot.x,spot.y,50);
+				if(color === 'black')
+					p.fill(50);
+				else // color === 'white'
+					p.fill(200);
+				
+				p.ellipse(spot.x,spot.y,100);
 			}
 		}	
 	}
