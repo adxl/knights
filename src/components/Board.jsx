@@ -15,6 +15,11 @@ export default class Board extends Component {
 	sketch = (p) => {
 
 		const canvasSize = 600;
+		const refBoard = [
+			[1,2,3],
+			[4,5,6],
+			[7,8,9]
+		];
 		let board;
 		
 		p.setup = () => {
@@ -31,15 +36,10 @@ export default class Board extends Component {
 
 		function initBoard() {
 			const size = canvasSize / 3;
-			const boardIndexes = [
-				[1,2,3],
-				[4,5,6],
-				[7,8,9]
-			];
-
+			
 			for (let i = 0; i < 3; i++) {
 				for (let j = 0; j < 3; j++) {
-					if (boardIndexes[i][j] % 2 !== 0) 
+					if (refBoard[i][j] % 2 !== 0) 
 						p.fill(50);
 					else 
 						p.fill(245);
@@ -60,6 +60,27 @@ export default class Board extends Component {
 			
 			return board;
 		}
+
+		p.mouseClicked = () => {
+			if (p.mouseX < canvasSize && p.mouseY < canvasSize) 
+				getSelectedSpot(p.mouseX,p.mouseY);
+		};
+
+		function getSelectedSpot(x,y) {
+			const s = canvasSize / 3;
+			let row,col;
+
+			if (x < s) col = 0;
+			else if (x > 2 * s) col = 2;
+			else col = 1;
+
+			if (y < s) row = 0;
+			else if (y > 2 * s) row = 2;
+			else row = 1;
+
+			console.log('CASE: ' + refBoard[row][col]);
+		}
+		
 	}
 
 	render() {
