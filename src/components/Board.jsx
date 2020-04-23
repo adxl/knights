@@ -15,11 +15,24 @@ export default class Board extends Component {
 	sketch = (p) => {
 
 		const canvasSize = 600;
+		const spotCenter = canvasSize / 6;
 		const refBoard = [
 			[1,2,3],
 			[4,5,6],
 			[7,8,9]
 		];
+		const spots = [
+			{ x: 1 * spotCenter,y : 1 * spotCenter },
+			{ x: 3 * spotCenter,y : 1 * spotCenter },
+			{ x: 5 * spotCenter,y : 1 * spotCenter },
+			{ x: 1 * spotCenter,y : 3 * spotCenter },
+			{ x: 3 * spotCenter,y : 3 * spotCenter },
+			{ x: 5 * spotCenter,y : 3 * spotCenter },
+			{ x: 1 * spotCenter,y : 5 * spotCenter },
+			{ x: 3 * spotCenter,y : 5 * spotCenter },
+			{ x: 5 * spotCenter,y : 5 * spotCenter },
+		];
+		
 		let board;
 		
 		p.setup = () => {
@@ -69,6 +82,7 @@ export default class Board extends Component {
 		function getSelectedSpot(x,y) {
 			const s = canvasSize / 3;
 			let row,col;
+			let spot;
 
 			if (x < s) col = 0;
 			else if (x > 2 * s) col = 2;
@@ -78,7 +92,12 @@ export default class Board extends Component {
 			else if (y > 2 * s) row = 2;
 			else row = 1;
 
-			console.log('CASE: ' + refBoard[row][col]);
+			spot = spots[refBoard[row][col] - 1];
+
+			p.fill(200);
+			console.log(spot.x,spot.y);
+			p.ellipse(spot.x,spot.y,50);
+
 		}
 		
 	}
