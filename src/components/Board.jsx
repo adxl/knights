@@ -33,9 +33,10 @@ export default class Board extends Component {
 			{ x: 5 * spotCenter,y : 5 * spotCenter },
 		];
 		
-		let knights = [];
-
 		let board;
+
+		let knights = [];
+		let selectedKnight = null;
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
@@ -84,16 +85,29 @@ export default class Board extends Component {
 		}
 
 		p.mouseClicked = () => {
-			if (p.mouseX < canvasSize && p.mouseY < canvasSize) 
-				console.log(containsKnight(p.mouseX,p.mouseY));
+			if (p.mouseX < canvasSize && p.mouseY < canvasSize)
 				
+				if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
+					selectedKnight = null;					
+				}
+				else {
+					selectedKnight = containsKnight(p.mouseX,p.mouseY);
+				}
+
+			console.log('--------------');
 		};
 
 		function containsKnight(x,y) {
 			const spot = getSelectedSpot(x,y);
 			const pos = spotToPos(spot);
 
-			return board[pos.i][pos.j] === 1 ? true : false;
+			return board[pos.i][pos.j] === 1 ? getKnight(spot) : null;
+		}
+
+		function getKnight(spot) {
+			for (const k of knights) 
+				if (k.spot === spot) 
+					return k;
 		}
 
 		function getSelectedSpot(x,y) {
