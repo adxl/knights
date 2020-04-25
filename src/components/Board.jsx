@@ -38,6 +38,7 @@ export default class Board extends Component {
 
 		let knights = [];
 		let selectedKnight = null;
+		let possibleMoves = [];
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
@@ -89,9 +90,15 @@ export default class Board extends Component {
 			if (p.mouseX < canvasSize && p.mouseY < canvasSize)
 				
 				if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
-					console.log('will move here');
-					selectedKnight = null;					
+					
+					let selectedSpot = getSelectedSpot(p.mouseX,p.mouseY);
 
+					if (possibleMoves.includes(selectedSpot.toString()))
+						console.log('Ok can move');
+					else 
+						console.log('Can\'t go there');
+						
+					selectedKnight = null;					
 				}
 				else {
 					selectedKnight = containsKnight(p.mouseX,p.mouseY);
@@ -103,31 +110,34 @@ export default class Board extends Component {
 		};
 
 		function showMoves() {
-			const size = canvasSize;
 			const { spot } = selectedKnight;
 			const x = spots[spot].x;
 			const y = spots[spot].y;
 			const offset = canvasSize / 3;
 
+			possibleMoves = [];
+
 			// RIGHT AND LEFT MOVES
 			if (checkBounds(x + 2 * offset,y - offset))  // > v
-				lightSpot(x + 2 * offset,y - offset);
+				lightSpot(posToSpot(x + 2 * offset,y - offset));
 			if (checkBounds(x + 2 * offset,y + offset))  // > ^
-				lightSpot(x + 2 * offset,y + offset);
+				lightSpot(posToSpot(x + 2 * offset,y + offset));
 			if (checkBounds(x - 2 * offset,y - offset))  // < v
-				lightSpot(x - 2 * offset,y - offset);
+				lightSpot(posToSpot(x - 2 * offset,y - offset));
 			if (checkBounds(x - 2 * offset,y + offset))  // < ^
-				lightSpot(x - 2 * offset,y + offset);
+				lightSpot(posToSpot(x - 2 * offset,y + offset));
 			
 			// TOP AND DOWN MOVES 
 			if (checkBounds(x - offset,y + 2 * offset))  // ^ <
-				lightSpot(x - offset,y + 2 * offset);
+				lightSpot(posToSpot(x - offset,y + 2 * offset));
 			if (checkBounds(x + offset,y + 2 * offset))  // ^ >
-				lightSpot(x +  offset,y + 2 * offset);
+				lightSpot(posToSpot(x + offset,y + 2 * offset));
 			if (checkBounds(x - offset,y - 2 * offset))  // v <
-				lightSpot(x - offset,y - 2 * offset);
+				lightSpot(posToSpot(x - offset,y - 2 * offset));
 			if (checkBounds(x + offset,y - 2 * offset))  // v >
-				lightSpot(x + offset,y - 2 * offset);
+				lightSpot(posToSpot(x + offset,y - 2 * offset));
+			
+			console.log('Can move to',possibleMoves[0],'and',possibleMoves[1]);
 			
 		}
 
@@ -135,25 +145,13 @@ export default class Board extends Component {
 			return ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
 		}
 
-		function lightSpot(x,y) {
-			let spot = {
-				x: x,
-				y: y
-			};
-			// spot = spots.indexOf(spot);
-			// console.log(x,y);
-			console.log(spot);
-			console.log(spots[4]);
-
-			console.log(JSON.parse({x:x,y:y}));
-			
-			console.log('can go to ',spot);
-	
+		function lightSpot(spot) {
+			possibleMoves.push(spot);
 		}
 
 		function containsKnight(x,y) {
 			const spot = getSelectedSpot(x,y);
-			const pos = spotToPos(spot);
+			const pos = spotToIndex(spot);
 
 			return board[pos.i][pos.j] === 1 ? getKnight(spot) : null;
 		}
@@ -179,7 +177,15 @@ export default class Board extends Component {
 			return refBoard[row][col];
 		}
 
-		function spotToPos(spot) {
+		function posToSpot(x,y) {
+			for (const i in spots) {
+				if (spots[i].x === x && spots[i].y === y) {
+					return i;
+				}
+			}
+		}
+
+		function spotToIndex(spot) {
 			let pos = {
 				i: null,
 				j: null
