@@ -39,6 +39,7 @@ export default class Board extends Component {
 		let knights = [];
 		let selectedKnight = null;
 		let possibleMoves = [];
+		let possibleMovesHints = [];
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
@@ -50,8 +51,11 @@ export default class Board extends Component {
 		};
 
 		p.draw = () => {
+			for (const h of possibleMovesHints) {
+				h.move();
+				h.show();
+			}
 
-			p.noLoop();
 		};
 
 		function initBoard() {
@@ -82,6 +86,8 @@ export default class Board extends Component {
 			knights.push(new Knight('black',spots[3]));
 			knights.push(new Knight('white',spots[7]));
 			knights.push(new Knight('white',spots[9]));
+		
+			console.log(knights);
 			
 			return board;
 		}
@@ -98,7 +104,13 @@ export default class Board extends Component {
 					else 
 						console.log('Can\'t go there');
 						
-					selectedKnight = null;					
+					possibleMoves.splice(0);
+					possibleMovesHints.splice(0);
+					selectedKnight = null;	
+					
+					console.log(possibleMoves);
+					console.log(possibleMovesHints);
+					
 				}
 				else {
 					selectedKnight = containsKnight(p.mouseX,p.mouseY);
@@ -115,7 +127,8 @@ export default class Board extends Component {
 			const y = spots[spot].y;
 			const offset = canvasSize / 3;
 
-			possibleMoves = [];
+			possibleMoves.splice(0);
+			possibleMovesHints.splice(0);
 
 			// RIGHT AND LEFT MOVES
 			if (checkBounds(x + 2 * offset,y - offset))  // > v
@@ -137,7 +150,8 @@ export default class Board extends Component {
 			if (checkBounds(x + offset,y - 2 * offset))  // v >
 				lightSpot(posToSpot(x + offset,y - 2 * offset));
 			
-			console.log('Can move to',possibleMoves[0],'and',possibleMoves[1]);
+			console.log(possibleMoves);
+			// console.log('Can move to',possibleMoves[0],'and',possibleMoves[1]);
 			
 		}
 
@@ -147,6 +161,10 @@ export default class Board extends Component {
 
 		function lightSpot(spot) {
 			possibleMoves.push(spot);
+			possibleMovesHints.push(new Hint(spot));
+
+			// console.log(possibleMovesHints);
+
 		}
 
 		function containsKnight(x,y) {
@@ -211,6 +229,24 @@ export default class Board extends Component {
 				p.ellipse(spot.x,spot.y,100);
 			}
 		}	
+
+		class Hint {
+			constructor(spot) {
+
+				this.x = spots[spot].x;
+				this.y = spots[spot].y;
+
+			}
+
+			show() {
+				p.fill(50,150,50);
+				p.ellipse(this.x,this.y,40,40);
+			}
+			move() {
+				this.x += p.random(-1,1);
+			}
+			
+		}
 	}
 	//pEnd
 
