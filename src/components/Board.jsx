@@ -49,40 +49,56 @@ export default class Board extends Component {
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
-			initBoard();
 			resetBoard();
+			paintBoard();
 			
 			// console.table(refBoard);
 		};
 
 		p.draw = () => {
+			paintBoard();
+			
+			for (const k of knights) {
+				k.show();
+			}
+			
 			for (const h of hints) {
-				// h.move();
 				h.show();
 			}
+
 		};
 
-		function initBoard() {
-			const size = canvasSize / 3;
-			
-			for (let i = 0; i < 3; i++) {
-				for (let j = 0; j < 3; j++) {
-					if (refBoard[i][j] % 2 !== 0) 
-						p.fill(60,100,100);
-					else 
-						p.fill(245);
-						
-					p.stroke(50);
-					p.strokeWeight(2);
-					
-					const cell = refBoard[i][j];
+		function paintBoard() {
 
-					const x = cells[cell].x;
-					const y = cells[cell].y;
-					
-					p.rectMode(p.CENTER);
-					p.rect(x,y,size - 8,size - 8);
-				}
+			const size = canvasSize / 3;
+
+			const blackCells = [1,3,5,7,9];
+			const whiteCells = [2,4,6,8];
+
+			// paint black cells
+			for (const c of blackCells) {
+				p.rectMode(p.CENTER);
+				p.fill(60,100,100);
+				p.stroke(50);
+				p.strokeWeight(2);
+
+				const x = cells[c].x;
+				const y = cells[c].y;
+
+				p.rect(x,y,size - 8,size - 8);
+			}
+
+			// paint white cells
+			for (const c of whiteCells) {
+				p.rectMode(p.CENTER);
+				p.fill(250);
+				p.stroke(50);
+				p.strokeWeight(2);
+
+				const x = cells[c].x;
+				const y = cells[c].y;
+
+				p.rect(x,y,size - 8,size - 8);
 			}
 		}
 		
@@ -224,12 +240,18 @@ export default class Board extends Component {
 			constructor(color,cell) {
 				this.color = color;
 				this.cell = cells.indexOf(cell);
-				if(color === 'black')
+				this.x = cell.x;
+				this.y = cell.y;
+			}
+
+			show() {
+				if(this.color === 'black')
 					p.fill(50);
 				else // color === 'white'
 					p.fill(200);
 				
-				p.ellipse(cell.x,cell.y,100);
+				p.ellipse(this.x,this.y,100,100);
+			
 			}
 		}	
 
@@ -242,13 +264,7 @@ export default class Board extends Component {
 			show() {
 				p.rectMode(p.CENTER);
 				p.fill(50,150,50);
-				p.rect(this.x,this.y,canvasSize / 3 - 5,canvasSize / 3 - 5);
-			}
-
-			// jitter (should be deleted)
-			move() {
-				this.x += p.random(-1,1);
-				this.y += p.random(-1,1);
+				p.rect(this.x,this.y,canvasSize / 3 - 20,canvasSize / 3 - 20);
 			}
 		}
 	}
