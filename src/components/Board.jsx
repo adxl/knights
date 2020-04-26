@@ -15,47 +15,46 @@ export default class Board extends Component {
 	sketch = (p) => {
 
 		const canvasSize = 600;
-		const spotCenter = canvasSize / 6;
+		const cellCenter = canvasSize / 6;
 		const refBoard = [
 			[1,2,3],
 			[4,5,6],
 			[7,8,9]
 		];
-		const spots = [
+		const cells = [
 			{ x: null,y: null},
-			{ x: 1 * spotCenter,y : 1 * spotCenter },
-			{ x: 3 * spotCenter,y : 1 * spotCenter },
-			{ x: 5 * spotCenter,y : 1 * spotCenter },
-			{ x: 1 * spotCenter,y : 3 * spotCenter },
-			{ x: 3 * spotCenter,y : 3 * spotCenter },
-			{ x: 5 * spotCenter,y : 3 * spotCenter },
-			{ x: 1 * spotCenter,y : 5 * spotCenter },
-			{ x: 3 * spotCenter,y : 5 * spotCenter },
-			{ x: 5 * spotCenter,y : 5 * spotCenter },
+			{ x: 1 * cellCenter,y : 1 * cellCenter },
+			{ x: 3 * cellCenter,y : 1 * cellCenter },
+			{ x: 5 * cellCenter,y : 1 * cellCenter },
+			{ x: 1 * cellCenter,y : 3 * cellCenter },
+			{ x: 3 * cellCenter,y : 3 * cellCenter },
+			{ x: 5 * cellCenter,y : 3 * cellCenter },
+			{ x: 1 * cellCenter,y : 5 * cellCenter },
+			{ x: 3 * cellCenter,y : 5 * cellCenter },
+			{ x: 5 * cellCenter,y : 5 * cellCenter },
 		];
 		
 		let board;
 
 		let knights = [];
 		let selectedKnight = null;
-		let possibleMoves = [];
-		let possibleMovesHints = [];
+
+		let moves = [];
+		let hints = [];
 		
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			initBoard();
 			board = resetBoard();
 			
-			console.table(refBoard);
-			
+			// console.table(refBoard);
 		};
 
 		p.draw = () => {
-			for (const h of possibleMovesHints) {
+			for (const h of hints) {
 				h.move();
 				h.show();
 			}
-
 		};
 
 		function initBoard() {
@@ -82,10 +81,10 @@ export default class Board extends Component {
 			board[1] = [0,0,0];		
 			board[2] = [1,0,1];	
 
-			knights.push(new Knight('black',spots[1]));
-			knights.push(new Knight('black',spots[3]));
-			knights.push(new Knight('white',spots[7]));
-			knights.push(new Knight('white',spots[9]));
+			knights.push(new Knight('black',cells[1]));
+			knights.push(new Knight('black',cells[3]));
+			knights.push(new Knight('white',cells[7]));
+			knights.push(new Knight('white',cells[9]));
 		
 			console.log(knights);
 			
@@ -94,23 +93,17 @@ export default class Board extends Component {
 
 		p.mouseClicked = () => {
 			if (p.mouseX < canvasSize && p.mouseY < canvasSize)
-				
 				if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
-					
-					let selectedSpot = getSelectedSpot(p.mouseX,p.mouseY);
+					let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
 
-					if (possibleMoves.includes(selectedSpot.toString()))
+					if (moves.includes(selectedCell.toString()))
 						console.log('Ok can move');
 					else 
 						console.log('Can\'t go there');
 						
-					possibleMoves.splice(0);
-					possibleMovesHints.splice(0);
+					moves.splice(0);
+					hints.splice(0);
 					selectedKnight = null;	
-					
-					console.log(possibleMoves);
-					console.log(possibleMovesHints);
-					
 				}
 				else {
 					selectedKnight = containsKnight(p.mouseX,p.mouseY);
@@ -118,39 +111,39 @@ export default class Board extends Component {
 						showMoves();
 				}
 
-			console.log('--------------');
+			console.log('----------------------------------------------');
 		};
 
 		function showMoves() {
-			const { spot } = selectedKnight;
-			const x = spots[spot].x;
-			const y = spots[spot].y;
+			const { cell } = selectedKnight;
+			const x = cells[cell].x;
+			const y = cells[cell].y;
 			const offset = canvasSize / 3;
 
-			possibleMoves.splice(0);
-			possibleMovesHints.splice(0);
+			moves.splice(0);
+			hints.splice(0);
 
 			// RIGHT AND LEFT MOVES
 			if (checkBounds(x + 2 * offset,y - offset))  // > v
-				lightSpot(posToSpot(x + 2 * offset,y - offset));
+				lightCell(posToCell(x + 2 * offset,y - offset));
 			if (checkBounds(x + 2 * offset,y + offset))  // > ^
-				lightSpot(posToSpot(x + 2 * offset,y + offset));
+				lightCell(posToCell(x + 2 * offset,y + offset));
 			if (checkBounds(x - 2 * offset,y - offset))  // < v
-				lightSpot(posToSpot(x - 2 * offset,y - offset));
+				lightCell(posToCell(x - 2 * offset,y - offset));
 			if (checkBounds(x - 2 * offset,y + offset))  // < ^
-				lightSpot(posToSpot(x - 2 * offset,y + offset));
+				lightCell(posToCell(x - 2 * offset,y + offset));
 			
 			// TOP AND DOWN MOVES 
 			if (checkBounds(x - offset,y + 2 * offset))  // ^ <
-				lightSpot(posToSpot(x - offset,y + 2 * offset));
+				lightCell(posToCell(x - offset,y + 2 * offset));
 			if (checkBounds(x + offset,y + 2 * offset))  // ^ >
-				lightSpot(posToSpot(x + offset,y + 2 * offset));
+				lightCell(posToCell(x + offset,y + 2 * offset));
 			if (checkBounds(x - offset,y - 2 * offset))  // v <
-				lightSpot(posToSpot(x - offset,y - 2 * offset));
+				lightCell(posToCell(x - offset,y - 2 * offset));
 			if (checkBounds(x + offset,y - 2 * offset))  // v >
-				lightSpot(posToSpot(x + offset,y - 2 * offset));
+				lightCell(posToCell(x + offset,y - 2 * offset));
 			
-			console.log(possibleMoves);
+			console.log(moves);
 			// console.log('Can move to',possibleMoves[0],'and',possibleMoves[1]);
 			
 		}
@@ -159,28 +152,25 @@ export default class Board extends Component {
 			return ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
 		}
 
-		function lightSpot(spot) {
-			possibleMoves.push(spot);
-			possibleMovesHints.push(new Hint(spot));
-
-			// console.log(possibleMovesHints);
-
+		function lightCell(cell) {
+			moves.push(cell);
+			hints.push(new Hint(cell));
 		}
 
 		function containsKnight(x,y) {
-			const spot = getSelectedSpot(x,y);
-			const pos = spotToIndex(spot);
+			const cell = getSelectedCell(x,y);
+			const index = cellToIndex(cell);
 
-			return board[pos.i][pos.j] === 1 ? getKnight(spot) : null;
+			return board[index.i][index.j] === 1 ? getKnight(cell) : null;
 		}
 
-		function getKnight(spot) {
+		function getKnight(cell) {
 			for (const k of knights) 
-				if (k.spot === spot) 
+				if (k.cell === cell) 
 					return k;
 		}
 
-		function getSelectedSpot(x,y) {
+		function getSelectedCell(x,y) {
 			const s = canvasSize / 3;
 			let row,col;
 
@@ -195,47 +185,45 @@ export default class Board extends Component {
 			return refBoard[row][col];
 		}
 
-		function posToSpot(x,y) {
-			for (const i in spots) {
-				if (spots[i].x === x && spots[i].y === y) {
+		function posToCell(x,y) {
+			for (const i in cells) {
+				if (cells[i].x === x && cells[i].y === y) {
 					return i;
 				}
 			}
 		}
 
-		function spotToIndex(spot) {
+		function cellToIndex(cell) {
 			let pos = {
 				i: null,
 				j: null
 			};
-			if (spot < 4) pos.i = 0;
-			else if (spot > 6) pos.i = 2;
+			if (cell < 4) pos.i = 0;
+			else if (cell > 6) pos.i = 2;
 			else pos.i = 1;
 
-			pos.j = refBoard[pos.i].indexOf(spot);
+			pos.j = refBoard[pos.i].indexOf(cell);
 
 			return pos;
 		}
 
 		class Knight {
-			constructor(color,spot) {
+			constructor(color,cell) {
 				this.color = color;
-				this.spot = spots.indexOf(spot);
+				this.cell = cells.indexOf(cell);
 				if(color === 'black')
 					p.fill(50);
 				else // color === 'white'
 					p.fill(200);
 				
-				p.ellipse(spot.x,spot.y,100);
+				p.ellipse(cell.x,cell.y,100);
 			}
 		}	
 
 		class Hint {
-			constructor(spot) {
-
-				this.x = spots[spot].x;
-				this.y = spots[spot].y;
-
+			constructor(cell) {
+				this.x = cells[cell].x;
+				this.y = cells[cell].y;
 			}
 
 			show() {
@@ -244,8 +232,8 @@ export default class Board extends Component {
 			}
 			move() {
 				this.x += p.random(-1,1);
+				this.y += p.random(-1,1);
 			}
-			
 		}
 	}
 	//pEnd
