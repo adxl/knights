@@ -6,10 +6,11 @@ export default class Board extends Component {
 	constructor(props) {
 		super(props);
 		this.pRef = React.createRef();
-		this.pCanvas = new p5(this.sketch,this.pRef.current);
 	}
-
-	state = { 
+	
+	componentDidMount() {
+		
+		this.p5Canvas = new p5(this.sketch,this.pRef.current);
 	}
 	
 	sketch = (p) => {
@@ -56,7 +57,7 @@ export default class Board extends Component {
 
 		p.draw = () => {
 			for (const h of hints) {
-				h.move();
+				// h.move();
 				h.show();
 			}
 		};
@@ -73,7 +74,14 @@ export default class Board extends Component {
 						
 					p.stroke(50);
 					p.strokeWeight(2);
-					p.rect(size * i + 5,size * j + 5,size - 5,size - 5);
+					
+					const cell = refBoard[i][j];
+
+					const x = cells[cell].x;
+					const y = cells[cell].y;
+					
+					p.rectMode(p.CENTER);
+					p.rect(x,y,size - 8,size - 8);
 				}
 			}
 		}
@@ -232,8 +240,9 @@ export default class Board extends Component {
 			}
 
 			show() {
+				p.rectMode(p.CENTER);
 				p.fill(50,150,50);
-				p.ellipse(this.x,this.y,40,40);
+				p.rect(this.x,this.y,canvasSize / 3 - 5,canvasSize / 3 - 5);
 			}
 
 			// jitter (should be deleted)
@@ -247,9 +256,10 @@ export default class Board extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="board-container">
 				<div ref={this.pRef} className="board"></div>
-			</div>);
+			</div>
+		);
 	}
 }
  
