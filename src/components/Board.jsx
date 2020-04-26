@@ -16,11 +16,15 @@ export default class Board extends Component {
 
 		const canvasSize = 600;
 		const cellCenter = canvasSize / 6;
+
+		// reference board 
 		const refBoard = [
 			[1,2,3],
 			[4,5,6],
 			[7,8,9]
 		];
+
+		// center pos of cells
 		const cells = [
 			{ x: null,y: null},
 			{ x: 1 * cellCenter,y : 1 * cellCenter },
@@ -34,7 +38,7 @@ export default class Board extends Component {
 			{ x: 5 * cellCenter,y : 5 * cellCenter },
 		];
 		
-		let board;
+		let board = [];
 
 		let knights = [];
 		let selectedKnight = null;
@@ -45,7 +49,7 @@ export default class Board extends Component {
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			initBoard();
-			board = resetBoard();
+			resetBoard();
 			
 			// console.table(refBoard);
 		};
@@ -74,9 +78,8 @@ export default class Board extends Component {
 			}
 		}
 		
+		// resets knights to initial positions
 		function resetBoard() {
-			let board = [];
-				
 			board[0] = [1,0,1];		
 			board[1] = [0,0,0];		
 			board[2] = [1,0,1];	
@@ -85,10 +88,6 @@ export default class Board extends Component {
 			knights.push(new Knight('black',cells[3]));
 			knights.push(new Knight('white',cells[7]));
 			knights.push(new Knight('white',cells[9]));
-		
-			console.log(knights);
-			
-			return board;
 		}
 
 		p.mouseClicked = () => {
@@ -114,6 +113,7 @@ export default class Board extends Component {
 			console.log('----------------------------------------------');
 		};
 
+		// shows possible moves
 		function showMoves() {
 			const { cell } = selectedKnight;
 			const x = cells[cell].x;
@@ -148,15 +148,18 @@ export default class Board extends Component {
 			
 		}
 
+		// checks if click was whithin the canvas
 		function checkBounds(x,y) {
 			return ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
 		}
 
+		// lights cell to show hints
 		function lightCell(cell) {
 			moves.push(cell);
 			hints.push(new Hint(cell));
 		}
 
+		// checks if a position contains a knight
 		function containsKnight(x,y) {
 			const cell = getSelectedCell(x,y);
 			const index = cellToIndex(cell);
@@ -164,12 +167,14 @@ export default class Board extends Component {
 			return board[index.i][index.j] === 1 ? getKnight(cell) : null;
 		}
 
+		// gets the cell's knight
 		function getKnight(cell) {
 			for (const k of knights) 
 				if (k.cell === cell) 
 					return k;
 		}
 
+		// gets a cell from pos
 		function getSelectedCell(x,y) {
 			const s = canvasSize / 3;
 			let row,col;
@@ -230,6 +235,8 @@ export default class Board extends Component {
 				p.fill(50,150,50);
 				p.ellipse(this.x,this.y,40,40);
 			}
+
+			// jitter (should be deleted)
 			move() {
 				this.x += p.random(-1,1);
 				this.y += p.random(-1,1);
