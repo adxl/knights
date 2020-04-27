@@ -4,7 +4,7 @@ import Board from './Board';
 function App() {
 	return (
 		<React.Fragment>
-			<main className="container mt-4">
+			<main className="container">
 				<Board />
 			</main>
 		</React.Fragment>);

@@ -7,11 +7,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.win-message, .moves-counter{
+  padding-top: 20px;
+  height: 100px;
+  text-align: center;
+}
+
+.rules
+{
+  width: 20%;
+  position: absolute;
+  left: 4%;
+}
 .board-container{
 width: 100%;
 text-align: center;
 }
 
+
 canvas{
+  border: solid 3px rgb(50, 50, 50);
 display: inline;
 }

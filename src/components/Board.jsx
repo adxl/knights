@@ -5,9 +5,13 @@ export default class Board extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { moves : 0};
 		this.pRef = React.createRef();
 	}
+
+	state = {
+		status : 'playing',
+		moves: 0
+	};
 
 	componentDidMount() {
 		
@@ -16,7 +20,7 @@ export default class Board extends Component {
 	
 	sketch = (p) => {
 
-		const canvasSize = 600;
+		const canvasSize = 564;
 		const cellCenter = canvasSize / 6;
 
 		// reference board 
@@ -48,8 +52,6 @@ export default class Board extends Component {
 		let moves = [];
 		let hints = [];
 		
-		let status = 'playing';
-
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			resetBoard();
@@ -118,15 +120,15 @@ export default class Board extends Component {
 			knights.push(new Knight('white',cells[9]));
 		}
 
-		function checkGameStatus() {
+		const checkGameStatus = () => {
 			console.table(board);
-			if (board[0][0] !== 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
-				status = 'win';
+			if (board[0][0] === 2 && board[2][2] === 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
+				this.setState({status: 'win'});
 			}
-		}
+		};
 
 		p.mouseClicked = () => {
-			if (status === 'playing') {
+			if (this.state.status === 'playing') {
 				if (p.mouseX < canvasSize && p.mouseY < canvasSize)
 					if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
 						let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
@@ -308,9 +310,26 @@ export default class Board extends Component {
 	render() {
 		return (
 			<Fragment>
-				<div>
-					<p>Moves: {this.state.moves}</p>
+				{this.state.status === 'win' &&
+					<div className="win-message" >
+						<h4>Congratulations you win!</h4>
+						<h6>Moves: {this.state.moves}</h6>
+					</div>}
+				
+				{this.state.status === 'playing' &&
+					<div className="moves-counter">
+						<h5>Moves: {this.state.moves}</h5>
+					</div>}
+				
+				<div className="rules">
+					<h6>How to play:</h6>
+					<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
+					then one at left or right, just like the shape of an “L”.</p>
+					<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. </p>
+					<p>What will be your best score? can you do better than your friends?</p>
+					<p>Try it now!  -&gt;</p>
 				</div>
+
 				<div className="board-container">
 					<div ref={this.pRef} className="board"></div>
 				</div>
