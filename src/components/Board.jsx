@@ -103,10 +103,11 @@ export default class Board extends Component {
 		}
 		
 		// resets knights to initial positions
+		// 1 black - 2 white - 0 empty cell
 		function resetBoard() {
 			board[0] = [1,0,1];		
 			board[1] = [0,0,0];		
-			board[2] = [1,0,1];	
+			board[2] = [2,0,2];	
 
 			knights.push(new Knight('black',cells[1]));
 			knights.push(new Knight('black',cells[3]));
@@ -119,8 +120,9 @@ export default class Board extends Component {
 				if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
 					let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
 
-					if (moves.includes(selectedCell.toString()))
-						console.log('Ok can move');
+					if (moves.includes(selectedCell.toString())) {
+						move(selectedKnight,selectedCell);
+					}
 					else 
 						console.log('Can\'t go there');
 						
@@ -167,9 +169,19 @@ export default class Board extends Component {
 			if (checkBounds(x + offset,y - 2 * offset))  // v >
 				lightCell(posToCell(x + offset,y - 2 * offset));
 			
-			console.log(moves);
+			// console.log(moves);
 			// console.log('Can move to',possibleMoves[0],'and',possibleMoves[1]);
 			
+		}
+
+		function move(knight,cell) {
+			const currentIndex = cellToIndex(knight.cell);
+			const nextIndex = cellToIndex(cell);
+			
+			board[currentIndex.i][currentIndex.j] = 0;
+			board[nextIndex.i][nextIndex.j] = knight.color === 'black' ? 1 : 2; 
+
+			knight.moveTo(cell);
 		}
 
 		// checks if click was whithin the canvas
@@ -188,7 +200,7 @@ export default class Board extends Component {
 			const cell = getSelectedCell(x,y);
 			const index = cellToIndex(cell);
 
-			return board[index.i][index.j] === 1 ? getKnight(cell) : null;
+			return board[index.i][index.j] > 0 ? getKnight(cell) : null;
 		}
 
 		// gets the cell's knight
@@ -242,6 +254,12 @@ export default class Board extends Component {
 				this.cell = cells.indexOf(cell);
 				this.x = cell.x;
 				this.y = cell.y;
+			}
+
+			moveTo(cell) {
+				this.cell = cell;
+				this.x = cells[cell].x;
+				this.y = cells[cell].y;
 			}
 
 			show() {
