@@ -150,23 +150,23 @@ export default class Board extends Component {
 			hints.splice(0);
 
 			// RIGHT AND LEFT MOVES
-			if (checkBounds(x + 2 * offset,y - offset))  // > v
+			if (isCellValid(x + 2 * offset,y - offset))  // > v
 				lightCell(posToCell(x + 2 * offset,y - offset));
-			if (checkBounds(x + 2 * offset,y + offset))  // > ^
+			if (isCellValid(x + 2 * offset,y + offset))  // > ^
 				lightCell(posToCell(x + 2 * offset,y + offset));
-			if (checkBounds(x - 2 * offset,y - offset))  // < v
+			if (isCellValid(x - 2 * offset,y - offset))  // < v
 				lightCell(posToCell(x - 2 * offset,y - offset));
-			if (checkBounds(x - 2 * offset,y + offset))  // < ^
+			if (isCellValid(x - 2 * offset,y + offset))  // < ^
 				lightCell(posToCell(x - 2 * offset,y + offset));
 			
 			// TOP AND DOWN MOVES 
-			if (checkBounds(x - offset,y + 2 * offset))  // ^ <
+			if (isCellValid(x - offset,y + 2 * offset))  // ^ <
 				lightCell(posToCell(x - offset,y + 2 * offset));
-			if (checkBounds(x + offset,y + 2 * offset))  // ^ >
+			if (isCellValid(x + offset,y + 2 * offset))  // ^ >
 				lightCell(posToCell(x + offset,y + 2 * offset));
-			if (checkBounds(x - offset,y - 2 * offset))  // v <
+			if (isCellValid(x - offset,y - 2 * offset))  // v <
 				lightCell(posToCell(x - offset,y - 2 * offset));
-			if (checkBounds(x + offset,y - 2 * offset))  // v >
+			if (isCellValid(x + offset,y - 2 * offset))  // v >
 				lightCell(posToCell(x + offset,y - 2 * offset));
 			
 			// console.log(moves);
@@ -185,8 +185,10 @@ export default class Board extends Component {
 		}
 
 		// checks if click was whithin the canvas
-		function checkBounds(x,y) {
-			return ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
+		function isCellValid(x,y) {
+			const empty = containsKnight(x,y) === null ? true : false;
+			const inbound = ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
+			return empty && inbound;  
 		}
 
 		// lights cell to show hints
@@ -281,7 +283,7 @@ export default class Board extends Component {
 
 			show() {
 				p.rectMode(p.CENTER);
-				p.fill(50,150,50);
+				p.fill('rgba(50,150,50,0.9)');
 				p.rect(this.x,this.y,canvasSize / 3 - 20,canvasSize / 3 - 20);
 			}
 		}
