@@ -47,6 +47,8 @@ export default class Board extends Component {
 		let moves = [];
 		let hints = [];
 		
+		let status = 'playing';
+
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			resetBoard();
@@ -115,28 +117,39 @@ export default class Board extends Component {
 			knights.push(new Knight('white',cells[9]));
 		}
 
+		function checkGameStatus() {
+			console.table(board);
+			if (board[0][0] !== 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
+				status = 'win';
+				
+			}
+		}
+
 		p.mouseClicked = () => {
-			if (p.mouseX < canvasSize && p.mouseY < canvasSize)
-				if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
-					let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
+			if (status === 'playing') {
+				if (p.mouseX < canvasSize && p.mouseY < canvasSize)
+					if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
+						let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
 
-					if (moves.includes(selectedCell.toString())) {
-						move(selectedKnight,selectedCell);
-					}
-					else 
-						console.log('Can\'t go there');
+						if (moves.includes(selectedCell.toString())) {
+							move(selectedKnight,selectedCell);
+							checkGameStatus();
+						}
+						else 
+							console.log('Can\'t go there');
 						
-					moves.splice(0);
-					hints.splice(0);
-					selectedKnight = null;	
-				}
-				else {
-					selectedKnight = containsKnight(p.mouseX,p.mouseY);
-					if (selectedKnight)
-						showMoves();
-				}
+						moves.splice(0);
+						hints.splice(0);
+						selectedKnight = null;	
+					}
+					else {
+						selectedKnight = containsKnight(p.mouseX,p.mouseY);
+						if (selectedKnight)
+							showMoves();
+					}
 
-			console.log('----------------------------------------------');
+				console.log('----------------------------------------------');
+			}
 		};
 
 		// shows possible moves
