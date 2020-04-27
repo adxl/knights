@@ -1,13 +1,14 @@
-import React,{ Component } from 'react';
+import React,{ Component,Fragment } from 'react';
 import p5 from 'p5';
 
 export default class Board extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = { moves : 0};
 		this.pRef = React.createRef();
 	}
-	
+
 	componentDidMount() {
 		
 		this.p5Canvas = new p5(this.sketch,this.pRef.current);
@@ -121,7 +122,6 @@ export default class Board extends Component {
 			console.table(board);
 			if (board[0][0] !== 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
 				status = 'win';
-				
 			}
 		}
 
@@ -187,7 +187,7 @@ export default class Board extends Component {
 			
 		}
 
-		function move(knight,cell) {
+		const move = (knight,cell) => {
 			const currentIndex = cellToIndex(knight.cell);
 			const nextIndex = cellToIndex(cell);
 			
@@ -195,7 +195,9 @@ export default class Board extends Component {
 			board[nextIndex.i][nextIndex.j] = knight.color === 'black' ? 1 : 2; 
 
 			knight.moveTo(cell);
-		}
+
+			this.setState({moves : this.state.moves + 1});
+		};
 
 		// checks if click was whithin the canvas
 		function isCellValid(x,y) {
@@ -305,9 +307,14 @@ export default class Board extends Component {
 
 	render() {
 		return (
-			<div className="board-container">
-				<div ref={this.pRef} className="board"></div>
-			</div>
+			<Fragment>
+				<div>
+					<p>Moves: {this.state.moves}</p>
+				</div>
+				<div className="board-container">
+					<div ref={this.pRef} className="board"></div>
+				</div>
+			</Fragment>
 		);
 	}
 }
