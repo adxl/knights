@@ -316,13 +316,22 @@ export default class Board extends Component {
 			<Fragment>
 				{this.state.status === 'win' &&
 					<div className="win-message" >
-						<h4>Congratulations you win!</h4>
-						<h6>Moves: {this.state.moves}</h6>
-					</div>}
+						{this.state.lang === 'en' && <div className="win-message-en">
+							<h4>Congratulations, you win!</h4>
+							<h6>Moves: {this.state.moves}</h6>
+						</div>}
+					
+						{this.state.lang === 'fr' && <div className="win-message-fr">
+							<h4>Félicitations, vous avez gagné!</h4>
+							<h6>Coups: {this.state.moves}</h6>
+						</div>}
+					</div>
+				}
 				
 				{this.state.status === 'playing' &&
 					<div className="moves-counter">
-						<h5>Moves: {this.state.moves}</h5>
+						{this.state.lang === 'en' && <h5>Moves: {this.state.moves}</h5>}
+						{this.state.lang === 'fr' && <h5>Coups: {this.state.moves}</h5>}
 					</div>}
 				
 				<div className="rules">
