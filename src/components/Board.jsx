@@ -1,6 +1,9 @@
 import React,{ Component,Fragment } from 'react';
 import p5 from 'p5';
 
+import  bkIcon from '../img/black_knight.png';
+import  wkIcon  from '../img/white_knight.png';
+
 import FlagIcon from './FlagIcon.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndoAlt} from '@fortawesome/free-solid-svg-icons';
@@ -70,10 +73,19 @@ export default class Board extends Component {
 		let moves = [];
 		let hints = [];
 		
+		let blackKnightIcon;
+		let whiteKnightIcon;
+
+		p.preload = () => {
+			blackKnightIcon = p.loadImage(bkIcon);
+			whiteKnightIcon = p.loadImage(wkIcon);
+		};
+
 		p.setup = () => {
 			p.createCanvas(canvasSize,canvasSize);
 			resetBoard();
 			paintBoard();
+			console.log(wkIcon);
 			
 			// console.table(refBoard);
 		};
@@ -88,7 +100,6 @@ export default class Board extends Component {
 			for (const h of hints) {
 				h.show();
 			}
-
 		};
 
 		function paintBoard() {
@@ -298,13 +309,13 @@ export default class Board extends Component {
 			}
 
 			show() {
+				p.imageMode(p.CENTER);
+
 				if(this.color === 'black')
-					p.fill(50);
+					p.image(blackKnightIcon,this.x,this.y,150,150);
 				else // color === 'white'
-					p.fill(200);
+					p.image(whiteKnightIcon,this.x,this.y,150,150);
 				
-				p.ellipse(this.x,this.y,100,100);
-			
 			}
 		}	
 
@@ -349,10 +360,10 @@ export default class Board extends Component {
 				<div className="rules">
 					<div className="lang-switch" >
 						<button onClick={this.switchLang} id="en">
-							<FlagIcon code={'gb'} size={'1x'} />
+							<FlagIcon code={'gb'}/>
 						</button>
 						<button onClick={this.switchLang} id="fr">
-							<FlagIcon code={'fr'} size={'1x'} />
+							<FlagIcon code={'fr'}/>
 						</button>
 					</div>
 					{ this.state.lang === 'en' && <div id="english-rules">
