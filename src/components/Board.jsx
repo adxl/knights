@@ -1,6 +1,10 @@
 import React,{ Component,Fragment } from 'react';
 import p5 from 'p5';
 
+import FlagIcon from './FlagIcon.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndoAlt} from '@fortawesome/free-solid-svg-icons';
+
 export default class Board extends Component {
 
 	constructor(props) {
@@ -344,8 +348,12 @@ export default class Board extends Component {
 				
 				<div className="rules">
 					<div className="lang-switch" >
-						<button onClick={this.switchLang} id="en">en</button>
-						<button onClick={this.switchLang} id="fr">fr</button>
+						<button onClick={this.switchLang} id="en">
+							<FlagIcon code={'gb'} size={'1x'} />
+						</button>
+						<button onClick={this.switchLang} id="fr">
+							<FlagIcon code={'fr'} size={'1x'} />
+						</button>
 					</div>
 					{ this.state.lang === 'en' && <div id="english-rules">
 						<h6>How to play:</h6>
@@ -367,7 +375,9 @@ export default class Board extends Component {
 
 				</div>
 
-				<button onClick={this.reset} className="reset-button" >reset</button>
+				<button onClick={this.reset} className="reset-button">
+					<FontAwesomeIcon icon={faUndoAlt} />
+				</button>
 
 				<div className="board-container">
 					<div ref={this.pRef} className="board"></div>
