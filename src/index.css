@@ -24,11 +24,15 @@ body {
   float: right;
 }
 
+.reset-button{
+  right: 320px;
+  position: absolute;
+}
+
 .board-container{
 width: 100%;
 text-align: center;
 }
-
 
 canvas{
   border: solid 3px rgb(50, 50, 50);

@@ -19,6 +19,15 @@ export default class Board extends Component {
 		this.p5Canvas = new p5(this.sketch,this.pRef.current);
 	}
 	
+	reset = () => {
+		if(this.p5Canvas !== undefined)
+			this.p5Canvas.remove();
+		this.p5Canvas = new p5(this.sketch,this.pRef.current);
+		this.setState({
+			status: 'playing',
+			moves: 0});
+	}
+
 	switchLang = e => {
 		this.setState({lang: e.target.id});
 	}
@@ -126,7 +135,6 @@ export default class Board extends Component {
 		}
 
 		const checkGameStatus = () => {
-			console.table(board);
 			if (board[0][0] === 2 && board[2][2] === 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
 				this.setState({status: 'win'});
 			}
@@ -358,6 +366,8 @@ export default class Board extends Component {
 					</div>}
 
 				</div>
+
+				<button onClick={this.reset} className="reset-button" >reset</button>
 
 				<div className="board-container">
 					<div ref={this.pRef} className="board"></div>
