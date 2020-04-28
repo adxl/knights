@@ -9,6 +9,7 @@ export default class Board extends Component {
 	}
 
 	state = {
+		lang: 'en',
 		status : 'playing',
 		moves: 0
 	};
@@ -18,6 +19,10 @@ export default class Board extends Component {
 		this.p5Canvas = new p5(this.sketch,this.pRef.current);
 	}
 	
+	switchLang = e => {
+		this.setState({lang: e.target.id});
+	}
+
 	sketch = (p) => {
 
 		const canvasSize = 564;
@@ -129,7 +134,7 @@ export default class Board extends Component {
 
 		p.mouseClicked = () => {
 			if (this.state.status === 'playing') {
-				if (p.mouseX < canvasSize && p.mouseY < canvasSize)
+				if (p.mouseX > 0 && p.mouseY > 0  && p.mouseX < canvasSize && p.mouseY < canvasSize) 
 					if (selectedKnight && containsKnight(p.mouseX,p.mouseY) === null) {
 						let selectedCell = getSelectedCell(p.mouseX,p.mouseY);
 
@@ -137,8 +142,6 @@ export default class Board extends Component {
 							move(selectedKnight,selectedCell);
 							checkGameStatus();
 						}
-						else 
-							console.log('Can\'t go there');
 						
 						moves.splice(0);
 						hints.splice(0);
@@ -150,7 +153,7 @@ export default class Board extends Component {
 							showMoves();
 					}
 
-				console.log('----------------------------------------------');
+				console.log('------------------------');
 			}
 		};
 
@@ -201,10 +204,11 @@ export default class Board extends Component {
 			this.setState({moves : this.state.moves + 1});
 		};
 
-		// checks if click was whithin the canvas
+		// checks if click was whithin the canvas and cell empty
 		function isCellValid(x,y) {
 			const empty = containsKnight(x,y) === null ? true : false;
 			const inbound = ((x * (x - canvasSize) <= 0) && (y * (y - canvasSize) <= 0));  
+			
 			return empty && inbound;  
 		}
 
@@ -322,12 +326,28 @@ export default class Board extends Component {
 					</div>}
 				
 				<div className="rules">
-					<h6>How to play:</h6>
-					<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
-					then one at left or right, just like the shape of an “L”.</p>
-					<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. </p>
-					<p>What will be your best score? can you do better than your friends?</p>
-					<p>Try it now!  -&gt;</p>
+					<div className="lang-switch" >
+						<button onClick={this.switchLang} id="en">en</button>
+						<button onClick={this.switchLang} id="fr">fr</button>
+					</div>
+					{ this.state.lang === 'en' && <div id="english-rules">
+						<h6>How to play:</h6>
+						<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
+						then one at left or right, just like the shape of an “L”.</p>
+						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. </p>
+						<p>What will be your best score? can you do better than your friends?</p>
+						<p>Try it now!  -&gt;</p>
+					</div>}
+
+					{ this.state.lang === 'fr' && <div id="french-rules">
+						<h6>Règles du jeu:</h6>
+						<p>Chaque pièce se déplace comme le chevalier dand une partie d&apos;échecs, i.e : deux case dans une direction,
+							puis une à droite ou à gauche, comme pour former un “L”.</p>
+						<p>Le but est d&apos;inverser les deux lignes (Celle du haut et celle du bas) en un minimum de coups possible.</p>
+						<p>Que sera ton meilleur score? Pourrez-tu battre tes amis?</p>
+						<p>Joue dès maintenant!  -&gt;</p>
+					</div>}
+
 				</div>
 
 				<div className="board-container">
