@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/knights/static/css/main.4ea02048.chunk.css",
+    "main.js": "/knights/static/js/main.7572ece7.chunk.js",
+    "main.js.map": "/knights/static/js/main.7572ece7.chunk.js.map",
+    "runtime-main.js": "/knights/static/js/runtime-main.8e85fbd1.js",
+    "runtime-main.js.map": "/knights/static/js/runtime-main.8e85fbd1.js.map",
+    "static/css/2.0189e33e.chunk.css": "/knights/static/css/2.0189e33e.chunk.css",
+    "static/js/2.5e496bd1.chunk.js": "/knights/static/js/2.5e496bd1.chunk.js",
+    "static/js/2.5e496bd1.chunk.js.map": "/knights/static/js/2.5e496bd1.chunk.js.map",
+    "index.html": "/knights/index.html",
+    "precache-manifest.0ad9be68612e9cf9b6aaf54340b77b23.js": "/knights/precache-manifest.0ad9be68612e9cf9b6aaf54340b77b23.js",
+    "service-worker.js": "/knights/service-worker.js",
+    "static/css/2.0189e33e.chunk.css.map": "/knights/static/css/2.0189e33e.chunk.css.map",
+    "static/css/main.4ea02048.chunk.css.map": "/knights/static/css/main.4ea02048.chunk.css.map",
+    "static/js/2.5e496bd1.chunk.js.LICENSE.txt": "/knights/static/js/2.5e496bd1.chunk.js.LICENSE.txt",
+    "static/media/flag-icon.css": "/knights/static/media/zw.8b885465.svg",
+    "static/media/white_knight.png": "/knights/static/media/white_knight.dafc83f7.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8e85fbd1.js",
+    "static/css/2.0189e33e.chunk.css",
+    "static/js/2.5e496bd1.chunk.js",
+    "static/css/main.4ea02048.chunk.css",
+    "static/js/main.7572ece7.chunk.js"
+  ]
+}
