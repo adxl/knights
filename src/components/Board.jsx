@@ -36,7 +36,13 @@ export default class Board extends Component {
 	}
 
 	switchLang = e => {
-		this.setState({lang: e.target.id});
+		if (e.target.tagName === 'BUTTON') {
+			this.setState({lang: e.target.id});
+		}
+		else {
+			const lang = e.target.parentElement.id;
+			this.setState({lang});
+		}
 	}
 
 	sketch = (p) => {
@@ -358,6 +364,7 @@ export default class Board extends Component {
 					</div>}
 				
 				<div className="rules">
+					{JSON.stringify(this.state)}
 					<div className="lang-switch" >
 						<button onClick={this.switchLang} id="en">
 							<FlagIcon code={'gb'}/>
