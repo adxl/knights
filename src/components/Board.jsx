@@ -6,7 +6,7 @@ import  wkIcon  from '../img/white_knight.png';
 
 import FlagIcon from './FlagIcon.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndoAlt} from '@fortawesome/free-solid-svg-icons';
+import { faUndoAlt,faChessKnight} from '@fortawesome/free-solid-svg-icons';
 
 export default class Board extends Component {
 
@@ -355,7 +355,7 @@ export default class Board extends Component {
 
 			show() {
 				p.rectMode(p.CENTER);
-				p.fill('rgba(50,150,50,0.9)');
+				p.fill('rgba(5,255,5,0.7)');
 				p.rect(this.x,this.y,canvasSize / 3 - 20,canvasSize / 3 - 20);
 			}
 		}
@@ -365,6 +365,9 @@ export default class Board extends Component {
 	render() {
 		return (
 			<Fragment>
+				<a  className="title" href="https://github.com/adxl/knights" >
+					<h3>Knights <FontAwesomeIcon icon={ faChessKnight } /> </h3>
+				</a>
 				{this.state.status === 'win' &&
 					<div className="win-message" >
 						{this.state.lang === 'en' && <div className="win-message-en">
@@ -387,15 +390,16 @@ export default class Board extends Component {
 				
 				<div className="rules">
 					<div className="lang-switch" >
-						<button onClick={this.switchLang} id="en">
+						<button onClick={this.switchLang} id="en" className="btn p-1" >
 							<FlagIcon code={'gb'}/>
 						</button>
-						<button onClick={this.switchLang} id="fr">
+						<button onClick={this.switchLang} id="fr" className="btn p-1" >
 							<FlagIcon code={'fr'}/>
 						</button>
 					</div>
 					{ this.state.lang === 'en' && <div id="english-rules">
-						<h6>How to play:</h6>
+						<h6 className="pl-2 pt-2">How to play:</h6>
+						<hr/>
 						<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
 						then one at left or right, just like the shape of an “L”.</p>
 						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. <br/>
@@ -406,7 +410,8 @@ export default class Board extends Component {
 					</div>}
 
 					{ this.state.lang === 'fr' && <div id="french-rules">
-						<h6>Règles du jeu:</h6>
+						<h6  className="pl-2 pt-2">Règles du jeu:</h6>
+						<hr/>
 						<p>Chaque pièce se déplace comme le cavalier dans une partie d&apos;échecs, i.e : deux case dans une direction,
 							puis une à droite ou à gauche, comme pour former un “L”.</p>
 						<p>Le but est d&apos;inverser les deux lignes en un minimum de coups possible. <br/>
@@ -419,10 +424,14 @@ export default class Board extends Component {
 				</div>
 
 				<div className="board-container">
-					<button onClick={this.reset} className="reset-button">
-						<FontAwesomeIcon icon={faUndoAlt} />
-					</button>
-					<div ref={this.pRef} className="board"></div>
+					<div ref={this.pRef} className="board">
+						<div className="reset-container">
+							<button onClick={this.reset} className="btn reset-button">
+								<FontAwesomeIcon icon={faUndoAlt} />
+							</button>
+						</div>
+					</div>
+					
 				</div>
 			</Fragment>
 		);

@@ -7,15 +7,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.title{
+  position: fixed;
+  top :5px;
+  left: 20px;
+  text-decoration: none;
+  color: rgb(50, 50, 50);
+}
+
+
 .win-message, .moves-counter{
   padding-top: 20px;
-  height: 100px;
+  height: 60px;
   text-align: center;
 }
 
 .rules
 {
-  width: 20%;
+  width: 23%;
+  margin-top: 40px;
+  background-color: #ebe9e9;
+  padding: 10px;
+  border: solid 2px rgb(216, 216, 216);
+  border-radius: 15px ;
   position: absolute;
   left: 4%;
 }
@@ -24,15 +38,18 @@ body {
   float: right;
 }
 
-.reset-button{
-  right: 320px;
-  position: absolute;
-}
 
 .board-container{
-width: 100%;
-text-align: center;
+  width: 100%;
+  text-align: center;
 }
+
+
+.reset-container{
+width: 75%;
+text-align: right;
+}
+
 
 canvas{
   border: solid 3px rgb(50, 50, 50);
