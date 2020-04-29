@@ -398,27 +398,30 @@ export default class Board extends Component {
 						<h6>How to play:</h6>
 						<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
 						then one at left or right, just like the shape of an “L”.</p>
-						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. </p>
+						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. <br/>
+							(White knights go up and black ones down).
+						</p>
 						<p>What will be your best score? can you do better than your friends?</p>
 						<p>Try it now!  -&gt;</p>
 					</div>}
 
 					{ this.state.lang === 'fr' && <div id="french-rules">
 						<h6>Règles du jeu:</h6>
-						<p>Chaque pièce se déplace comme le chevalier dand une partie d&apos;échecs, i.e : deux case dans une direction,
+						<p>Chaque pièce se déplace comme le cavalier dans une partie d&apos;échecs, i.e : deux case dans une direction,
 							puis une à droite ou à gauche, comme pour former un “L”.</p>
-						<p>Le but est d&apos;inverser les deux lignes (Celle du haut et celle du bas) en un minimum de coups possible.</p>
+						<p>Le but est d&apos;inverser les deux lignes en un minimum de coups possible. <br/>
+							(Les cavaliers blans vers le haut, et ceux en noir vers le bas).
+						</p>
 						<p>Que sera ton meilleur score? Pourrez-tu battre tes amis?</p>
 						<p>Joue dès maintenant!  -&gt;</p>
 					</div>}
 
 				</div>
 
-				<button onClick={this.reset} className="reset-button">
-					<FontAwesomeIcon icon={faUndoAlt} />
-				</button>
-
 				<div className="board-container">
+					<button onClick={this.reset} className="reset-button">
+						<FontAwesomeIcon icon={faUndoAlt} />
+					</button>
 					<div ref={this.pRef} className="board"></div>
 				</div>
 			</Fragment>
