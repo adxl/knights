@@ -6,7 +6,7 @@ import  wkIcon  from '../img/white_knight.png';
 
 import FlagIcon from './FlagIcon.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndoAlt,faChessKnight} from '@fortawesome/free-solid-svg-icons';
+import { faUndoAlt,faChessKnight,faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 
 export default class Board extends Component {
 
@@ -19,7 +19,9 @@ export default class Board extends Component {
 		lang: 'en',
 		status: 'playing',
 		score: 0,
-		moves: 0
+		moves: 0,
+		hints: true,
+		hintsButtonClass : 'btn on'
 	};
 
 	componentDidMount() {
@@ -34,6 +36,20 @@ export default class Board extends Component {
 		this.setState({
 			status: 'playing',
 			moves: 0});
+	}
+
+	toggleHints = e => {
+		
+		const hints = !this.state.hints;
+		let hintsButtonClass;
+		
+		if (hints) 
+			hintsButtonClass = 'btn on';
+		else 
+			hintsButtonClass = 'btn off';
+		
+		this.setState({ hints,hintsButtonClass });
+	
 	}
 
 	switchLang = e => {
@@ -104,8 +120,10 @@ export default class Board extends Component {
 				k.show();
 			}
 			
-			for (const h of hints) {
-				h.show();
+			if (this.state.hints) {
+				for (const h of hints) {
+					h.show();
+				}
 			}
 		};
 
@@ -426,9 +444,12 @@ export default class Board extends Component {
 				<div className="board-container">
 					<div ref={this.pRef} className="board">
 						<div className="reset-container">
+							<button onClick={this.toggleHints} className={this.state.hintsButtonClass}>
+								<FontAwesomeIcon icon={faQuestionCircle} />
+							</button>
 							<button onClick={this.reset} className="btn reset-button">
 								<FontAwesomeIcon icon={faUndoAlt} />
-							</button>
+							</button>	
 						</div>
 					</div>
 					

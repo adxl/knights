@@ -55,3 +55,11 @@ canvas{
   border: solid 3px rgb(50, 50, 50);
   display: inline;
 }
+
+.on{
+  opacity: 100%;
+}
+
+.off{
+  opacity: 20%;
+}
