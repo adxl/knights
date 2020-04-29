@@ -17,7 +17,8 @@ export default class Board extends Component {
 
 	state = {
 		lang: 'en',
-		status : 'playing',
+		status: 'playing',
+		score: 0,
 		moves: 0
 	};
 
@@ -157,7 +158,28 @@ export default class Board extends Component {
 
 		const checkGameStatus = () => {
 			if (board[0][0] === 2 && board[2][2] === 1 && (board[0][0] === board[0][2] && board[2][0] === board[2][2])) {
-				this.setState({status: 'win'});
+				this.setState({ status: 'win' });
+
+				const { moves } = this.state;
+				let score;
+
+				if (moves >= 34)
+					score = 'F';
+				
+				else if(moves >= 28)
+					score = 'D';
+
+				else if(moves >= 22)
+					score = 'C';
+
+				else if(moves > 16)
+					score = 'B';
+
+				else 
+					score = 'A';
+				
+				this.setState({score});
+
 			}
 		};
 
@@ -347,12 +369,12 @@ export default class Board extends Component {
 					<div className="win-message" >
 						{this.state.lang === 'en' && <div className="win-message-en">
 							<h4>Congratulations, you win!</h4>
-							<h6>Moves: {this.state.moves}</h6>
+							<h6>Moves: {this.state.moves} - Score: {this.state.score}</h6>
 						</div>}
 					
 						{this.state.lang === 'fr' && <div className="win-message-fr">
 							<h4>Félicitations, vous avez gagné!</h4>
-							<h6>Coups: {this.state.moves}</h6>
+							<h6>Coups: {this.state.moves} - Score: {this.state.score}</h6>
 						</div>}
 					</div>
 				}
@@ -364,7 +386,6 @@ export default class Board extends Component {
 					</div>}
 				
 				<div className="rules">
-					{JSON.stringify(this.state)}
 					<div className="lang-switch" >
 						<button onClick={this.switchLang} id="en">
 							<FlagIcon code={'gb'}/>
