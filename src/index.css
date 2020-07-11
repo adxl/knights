@@ -1,5 +1,4 @@
 body {
-  background-color: rgb(50, 50, 50);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -9,30 +8,30 @@ body {
 }
 
 .title{
-  position: fixed;
-  top :5px;
-  left: 20px;
+  position: absolute;
+  top: 5px;
+  left: 10px;
   text-decoration: none;
-  color: red;
+  color: rgb(50, 50, 50);
 }
 
 
 .win-message, .moves-counter{
-  padding-top: 20px;
-  height: 60px;
+  padding-top: 10x;
   text-align: center;
 }
 
 .rules
 {
-  
-  margin-top: 40px;
+  margin-top: 80px;
   margin-bottom: 20px;
-  background-color: #ebe9e9;
+  background-color: #f3f3f3;
   padding: 10px;
   border: solid 2px rgb(216, 216, 216);
   border-radius: 15px ;
+  font-size: 14px;
 }
+
 
 .lang-switch{
   float: right;

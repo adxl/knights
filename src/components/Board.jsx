@@ -386,25 +386,6 @@ export default class Board extends Component {
 				<a  className="title" href="https://github.com/adxl/knights" >
 					<h3>Knights <FontAwesomeIcon icon={ faChessKnight } /> </h3>
 				</a>
-				{this.state.status === 'win' &&
-					<div className="win-message" >
-						{this.state.lang === 'en' && <div className="win-message-en">
-							<h4>Congratulations, you win!</h4>
-							<h6>Moves: {this.state.moves} - Score: {this.state.score}</h6>
-						</div>}
-					
-						{this.state.lang === 'fr' && <div className="win-message-fr">
-							<h4>Félicitations, vous avez gagné!</h4>
-							<h6>Coups: {this.state.moves} - Score: {this.state.score}</h6>
-						</div>}
-					</div>
-				}
-				
-				{this.state.status === 'playing' &&
-					<div className="moves-counter">
-						{this.state.lang === 'en' && <h5>Moves: {this.state.moves}</h5>}
-						{this.state.lang === 'fr' && <h5>Coups: {this.state.moves}</h5>}
-					</div>}
 				
 				<div className="rules">
 					<div className="lang-switch" >
@@ -440,6 +421,26 @@ export default class Board extends Component {
 					</div>}
 
 				</div>
+
+				{this.state.status === 'win' &&
+					<div className="win-message" >
+						{this.state.lang === 'en' && <div className="win-message-en">
+							<h4>Congratulations, you win!</h4>
+							<h6>Moves: {this.state.moves} - Score: {this.state.score}</h6>
+						</div>}
+					
+						{this.state.lang === 'fr' && <div className="win-message-fr">
+							<h4>Félicitations, vous avez gagné!</h4>
+							<h6>Coups: {this.state.moves} - Score: {this.state.score}</h6>
+						</div>}
+					</div>
+				}
+				
+				{this.state.status === 'playing' &&
+					<div className="moves-counter">
+						{this.state.lang === 'en' && <h5>Moves: {this.state.moves}</h5>}
+						{this.state.lang === 'fr' && <h5>Coups: {this.state.moves}</h5>}
+					</div>}
 
 				<div className="board-container">
 					<div ref={this.pRef} className="board">
