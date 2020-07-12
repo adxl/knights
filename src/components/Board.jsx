@@ -16,6 +16,7 @@ export default class Board extends Component {
 	}
 
 	state = {
+		// rules: true, ::unused
 		lang: 'en',
 		status: 'playing',
 		score: 0,
@@ -51,6 +52,13 @@ export default class Board extends Component {
 		this.setState({ hints,hintsButtonClass });
 	
 	}
+
+	// toggleRules = e => {   ::unused
+
+	// 	const rules = !this.state.rules;
+	// 	this.setState({rules});
+
+	// }
 
 	switchLang = e => {
 		if (e.target.tagName === 'BUTTON') {
@@ -137,7 +145,7 @@ export default class Board extends Component {
 			// paint black cells
 			for (const c of blackCells) {
 				p.rectMode(p.CENTER);
-				p.fill(60,100,100);
+				p.fill(60,60,60);
 				p.stroke(50);
 				p.strokeWeight(2);
 
@@ -390,34 +398,27 @@ export default class Board extends Component {
 				<div className="rules">
 					<div className="lang-switch" >
 						<button onClick={this.switchLang} id="en" className="btn p-1" >
-							<FlagIcon code={'gb'}/>
+							<FlagIcon code={'gb'} />
 						</button>
 						<button onClick={this.switchLang} id="fr" className="btn p-1" >
-							<FlagIcon code={'fr'}/>
+							<FlagIcon code={'fr'} />
 						</button>
 					</div>
-					{ this.state.lang === 'en' && <div id="english-rules">
+					{this.state.lang === 'en' && <div id="english-rules">
 						<h6 className="pl-2 pt-2">How to play:</h6>
-						<hr/>
-						<p>Each piece moves as the knight in a regular chess game, i.e : two squares in one direction,
-						then one at left or right, just like the shape of an “L”.</p>
-						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. <br/>
-							(White knights go up and black ones down).
+						<hr />
+						<p>Each piece moves as the knight in a regular chess game (like the shape of an “L”).</p>
+						<p>The goal is to invert between the upper row and the bottom one in a minimum moves possible. <br />
 						</p>
-						<p>What will be your best score? can you do better than your friends?</p>
-						<p>Try it now!  -&gt;</p>
+							
 					</div>}
 
-					{ this.state.lang === 'fr' && <div id="french-rules">
-						<h6  className="pl-2 pt-2">Règles du jeu:</h6>
-						<hr/>
-						<p>Chaque pièce se déplace comme le cavalier dans une partie d&apos;échecs, i.e : deux case dans une direction,
-							puis une à droite ou à gauche, comme pour former un “L”.</p>
-						<p>Le but est d&apos;inverser les deux lignes en un minimum de coups possible. <br/>
-							(Les cavaliers blans vers le haut, et ceux en noir vers le bas).
+					{this.state.lang === 'fr' && <div id="french-rules">
+						<h6 className="pl-2 pt-2">Règles du jeu:</h6>
+						<hr />
+						<p>Chaque pièce se déplace comme le cavalier dans une partie d&apos;échecs.</p>
+						<p>Le but est d&apos;inverser les deux lignes en un minimum de coups possible. <br />
 						</p>
-						<p>Que sera ton meilleur score? Pourrez-tu battre tes amis?</p>
-						<p>Joue dès maintenant!  -&gt;</p>
 					</div>}
 
 				</div>

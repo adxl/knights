@@ -3,7 +3,7 @@ import Board from './Board';
 import WidthError from './WidthError';
 
 function App() {
-	if (window.innerWidth > 800)
+	if (window.innerWidth > 1200)
 		return (
 			<React.Fragment>
 				<main className="container">

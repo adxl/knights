@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background-color: rgb(50, 50, 50);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,24 +13,33 @@ body {
   top: 5px;
   left: 10px;
   text-decoration: none;
-  color: rgb(50, 50, 50);
+  color: white;
 }
 
 
-.win-message, .moves-counter{
+.win-message h6, .win-message h4, .moves-counter h5{
+
+  margin-bottom: 0;
+
+}
+  .win-message, .moves-counter{
   padding-top: 10x;
+  margin-top: 30px;
   text-align: center;
+  color: white;
 }
 
 .rules
 {
-  margin-top: 80px;
-  margin-bottom: 20px;
   background-color: #f3f3f3;
   padding: 10px;
   border: solid 2px rgb(216, 216, 216);
   border-radius: 15px ;
   font-size: 14px;
+  width: 20%;
+  position: absolute;
+  left: 30px;
+  top: 100px
 }
 
 
@@ -49,9 +59,13 @@ width: 75%;
 text-align: right;
 }
 
+.reset-button{
+color: white;
+
+}
 
 canvas{
-  border: solid 3px rgb(50, 50, 50);
+  border: solid 3px rgb(255, 255, 255);
 }
 
 button:focus{
@@ -60,10 +74,12 @@ box-shadow: none !important ;
 
 .on{
   opacity: 100%;
+  color: white;
 }
 
 .off{
   opacity: 50%;
+  color: white;
 }
 
 /*   ERROR  STYLE   */
