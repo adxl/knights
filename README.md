@@ -6,7 +6,7 @@ You can read rules directly in-game: [here](http://adxl.github.io/knights).
 
 ## Screenshot
 <p align="center">
-  <img src="res/sc.png" alt="knight puzzle game demo screenshot">
+  <img src="res/sc2.png" alt="knight puzzle game demo screenshot">
 </p>
 
 ## Contributing  
